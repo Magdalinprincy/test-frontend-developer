@@ -1,24 +1,48 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Updated imports
+import HomePage from './component/HomePage';
+import SubscriptionPage from './component/SubscriptionPage';
+import ContentAccessPage from './component/ContentAccessPage';
 import './App.css';
 
 function App() {
+  const [selectedDestination, setSelectedDestination] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState('');
+
+  const handleDestinationSelect = (destination) => {
+    setSelectedDestination(destination);
+  };
+
+  const handlePlanSelect = (plan) => {
+    setSelectedPlan(plan);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {' '}
+          {/* Changed from Switch */}
+          <Route
+            path="/"
+            element={<HomePage onSelect={handleDestinationSelect} />}
+          />
+          <Route
+            path="/subscription"
+            element={
+              <SubscriptionPage
+                selectedDestination={selectedDestination}
+                onSelectPlan={handlePlanSelect}
+              />
+            }
+          />
+          <Route
+            path="/content-access"
+            element={<ContentAccessPage selectedPlan={selectedPlan} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
